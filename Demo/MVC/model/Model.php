@@ -1,6 +1,7 @@
 <?php
 
 include_once( "model/Book.php" );
+include_once( "model/DBHelper.php" );
 
 class Model
 {
@@ -8,28 +9,27 @@ class Model
     {
         // here goes some hardcoded values to simulate the database
 
-        $db = "model/db.inc";
-        if ( ! file_exists( $db )) {
-            echo "Database does not exist";
-            exit;
-        }
+        $db  = new DBHelper();
+        $sql = "select * from Book";
+        $res = $db->execute_sql( $sql );
+        $db->close_connect();
 
-        $books_record    = file( $db );
-        $number_of_books = count( $books_record );
-        $books_array     = Array();
+        //var_dump($res);
+        // echo count($res);
+        $number_of_books = count( $res );
+        //echo $number_of_books;
+
+        $books_array = Array();
 
         if ($number_of_books == 0) {
             echo "No data found";
             exit;
         }
-        for ($i = 0; $i < $number_of_books; $i ++) {
 
-            $line = explode( "#", $books_record[$i] );
-
-            $title       = $line[0];
-            $author      = $line[1];
-            $description = $line[2];
-            $book        = new Book( $title, $author, $description );
+        foreach ($res as $row) {
+            $book = new Book(
+                $row['title'], $row['author'], $row['description']
+                );
 
             array_push( $books_array, $book );
         }
@@ -41,33 +41,28 @@ class Model
     {
         // we use the previous function to get all the books and then we return the requested one.
         // in a real life scenario this will be done through a db select command
-        $allBooks = $this->getBookList();
+        $db  = new DBHelper();
+        $sql = "select * from Book where `title` = '$title' limit 1";
+        // echo htmlspecialchars ( $sql );
+        $res = $db->execute_sql( $sql );
+        $db->close_connect();
 
-        foreach ($allBooks as $book) {
-            if ($book->title == $title) {
-                return $book;
-            }
-        }
+        $book = new Book($res[0]['title'], $res[0]['author'], $res[0]['description']);
 
-        return false;
+        return $book;
     }
 
     public function addBook( $book )
     {
-        $db   = "model/db.inc";
-        $file = fopen( $db, "a" );
+        $db  = new DBHelper();
+        $sql = "insert into Book VALUES (NULL, '$book->title',
+        '$book->author', '$book->description')";
+        //echo htmlspecialchars ( $sql );
+        $res = $db->execute_sql( $sql );
+        $db->close_connect();
 
-        if ($file != false) {
+        return true;
 
-            $book_message = $book->title . "#" . $book->author . "#"
-                            . $book->description . "\n";
-
-            fwrite( $file, $book_message );
-            fclose( $file );
-            return true;
-        } else {
-            echo false;
-        }
     }
 }
 

@@ -12,12 +12,11 @@ if ($_GET['op'] == "add") {
         //echo $_POST['title'];
         if ($controller->addBook(
             $_POST['title'],
-            $_POST['author'],
+                $_POST['author'],
             $_POST['description']
         )) {
             echo "<script>window.location='index.php'</script>";
         }
     }
 }
-
 ?>

@@ -1,0 +1,81 @@
+<html>
+<head>
+    <title>The jQuery Example</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <style>
+        a.test {
+            font-weight: bold;
+            color:red;
+        }
+    </style>
+</head>
+
+<body>
+<div>
+    <p class="myclass">This is a paragraph.</p>
+    <p id="myid">This is second paragraph.</p>
+    <p id="thirdId">This is third paragraph.</p>
+
+    <a href="http://jquery.com/">jQuery</a><br><br>
+
+    Name: <input type="text" name="fullname"><br>
+    Email: <input type="text" name="email">
+</div>
+<button>Start Animation</button>
+<div id="animate-block" style="background:#98bf21;height:100px;width:100px;position:absolute;"></div>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+/////////////// SELECTOR ////////////////////////
+        $("p").css("background-color", "yellow");
+//            $("p.myclass").css("background-color", "yellow");
+/////////////// EVENTS ////////////////////////
+        $( "a" ).click(function( event ) {
+            $( this ).addClass( "test" );
+            alert( "The link will no longer take you to jquery.com" );
+
+            event.preventDefault();
+            $( this ).hide( "slow" );
+        });
+///////////////////////////////////////////////////
+        $("p#myid").dblclick(function(){
+            $(this).hide("slow");
+        });
+
+///////////////////////////////////////////////////
+        $("input").focus(function(){
+            $(this).css("background-color", "#cccccc");
+        });
+        $("input").blur(function(){
+            $(this).css("background-color", "#ffffff");
+        });
+
+/////////////////  Animation ////////////////////
+$("button").click(function(){
+        $("#animate-block").animate({
+            left: '250px',
+            opacity: '0.5',
+            height: '150px',
+            width: '150px'
+        });
+    });
+
+    });
+////////////////// Multiple Events ///////////////////////
+    $("p#thirdId").on({
+        mouseenter: function(){
+            $(this).css("background-color", "lightgray");
+        },
+        mouseleave: function(){
+            $(this).css("background-color", "red");
+        },
+        click: function(){
+            $(this).css("background-color", "yellow");
+        }
+    });
+
+
+</script>
+</body>
+
+</html>
