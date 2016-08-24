@@ -4,10 +4,10 @@ include_once( "../app/models/Book.php" );
 include_once( "../app/models/User.php" );
 include_once( "../app/models/Order.php" );
 include_once( "../app/models/DBHelper.php" );
-class Model
+class Model//新建一个model
 {
     /////////// BOOK /////////////
-    public function getBookList()
+    public function getBookList()//新建一个function，作用是
     {
         // here goes some hardcoded values to simulate the database
 

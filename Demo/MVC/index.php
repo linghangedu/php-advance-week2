@@ -2,9 +2,10 @@
 include_once( "controller/Controller.php" );
 
 $controller = new Controller();
-$controller->invoke();
+$controller->invoke();//直接跳到invoke function里面
 
-if ($_GET['op'] == "add") {
+
+if ($_GET['op'] == "add") {//index条件
     include( "view/addBook.php" );
     if ( ! empty( $_POST['title'] ) || ! empty( $_POST['author'] )
          || ! empty( $_POST['description'] )

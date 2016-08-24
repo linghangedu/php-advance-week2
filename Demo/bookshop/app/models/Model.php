@@ -8,29 +8,29 @@ include_once( "app/models/DBHelper.php" );
 class Model
 {
     /////////// BOOK /////////////
-    public function getBookList()
+    public function getBookList()//被controller 里的invokeBook函数调用
     {
         // here goes some hardcoded values to simulate the database
 
         $db  = new DBHelper();
         $sql = "select * from Books";
-        $res = $db->execute_sql( $sql );
+        $res = $db->execute_sql( $sql );//在db里面执行sql语句
         $db->close_connect();
 
 //var_dump($res);
 // echo count($res);
-        $number_of_books = count( $res );
+        $number_of_books = count( $res );//计算执行sql语句之后的结果
         //echo $number_of_books;
 
         $books_array = Array();
 
-        if ($number_of_books == 0) {
+        if ($number_of_books == 0) {//如果结果等于0，显示..，并退出
             echo "No data found";
             exit;
         }
 
-        foreach ($res as $row) {
-            $book = new Book(
+        foreach ($res as $row) {//遍历执行sql语句后的结果，并按照$row格式排列
+            $book = new Book(//book信息的排列格式
                 $row['id'],
                 $row['author'],
                 $row['category'],
@@ -41,25 +41,25 @@ class Model
                 $row['title']
             );
 
-            array_push( $books_array, $book );
+            array_push( $books_array, $book );//？？？
         }
 
         return $books_array;
     }
 
-    public function getBook( $id )
+    public function getBook( $id )//
     {
         // we use the previous function to get all the books and then we return the requested one.
         // in a real life scenario this will be done through a db select command
         $allBooks = $this->getBookList();
 
-        foreach ($allBooks as $book) {
-            if ($book->id == $id) {
+        foreach ($allBooks as $book) {//遍历所有的的书，按照$book 方式排列
+            if ($book->id == $id) {//如果id相符，则返回$book
                 return $book;
             }
         }
 
-        return false;
+        return false;//否则返回错误
     }
 
     public function addBook( $book )
@@ -191,7 +191,7 @@ class Model
         }
 
         foreach ($res as $row) {
-            $order = new Order(
+            $order = new Order(//变量order里面包含的参数和格式
                 $row['id'],
                 $row['user_id'],
                 $row['book_id'],

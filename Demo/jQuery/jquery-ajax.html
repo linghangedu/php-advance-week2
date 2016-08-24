@@ -21,7 +21,7 @@
       },
       dataType: 'jsonp',
       success: function(data) {
-         var $title = $('<h1>').text(data.talks[0].talk_title);
+         var $title = $('<h1>').text(data.talks[0].talk_title);//因为在json里是个array，所以talk是个数组
          var $description = $('<p>').text(data.talks[0].talk_description);
          $('#info')
             .append($title)
